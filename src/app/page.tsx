@@ -262,6 +262,7 @@ export default function Home() {
 
   const acceptingRef = useRef(false);
   const conversationRef = useRef<any>(null);
+  const operationListRef = useRef<HTMLDivElement | null>(null);
 
   const agentVariable = useRef<any>(null);
 
@@ -272,6 +273,16 @@ export default function Home() {
   useEffect(() => {
     conversationRef.current = conversation;
   }, [conversation]);
+
+  useEffect(() => {
+    const el = operationListRef.current;
+    if (!el) return;
+
+    el.scrollTo({
+      top: el.scrollHeight,
+      behavior: "smooth",
+    });
+  }, [operation]);
 
   /*
    * WebSocket connection
@@ -705,6 +716,7 @@ export default function Home() {
                   <motion.div
                     key="live-log"
                     className="operation-list"
+                    ref={operationListRef}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
